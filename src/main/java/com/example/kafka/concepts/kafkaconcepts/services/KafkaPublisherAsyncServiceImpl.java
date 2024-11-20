@@ -1,7 +1,6 @@
 package com.example.kafka.concepts.kafkaconcepts.services;
 
 import com.example.kafka.concepts.kafkaconcepts.enums.Topic;
-import com.example.kafka.concepts.kafkaconcepts.enums.TypeMessage;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,7 @@ public final class KafkaPublisherAsyncServiceImpl implements KafkaPublisherServi
     }
 
     @Override
-    public void sendMessage(String message, Topic topic, TypeMessage typeMessage) {
-        if (typeMessage == TypeMessage.SYNC) return;
+    public void sendMessage(String message, Topic topic) {
         CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(topic.name(), message);
         future.whenComplete((result, exception) -> {
             if (exception == null) {
